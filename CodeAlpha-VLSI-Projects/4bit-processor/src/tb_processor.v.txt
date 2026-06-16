@@ -1,0 +1,35 @@
+module tb_processor;
+
+reg clk;
+
+Processor4bit uut(
+    .clk(clk)
+);
+
+always #5 clk = ~clk;
+
+initial begin
+
+    clk = 0;
+
+    // Example instructions
+
+    uut.instruction = 8'b00010110; // ADD R1,R2
+    #10;
+
+    uut.instruction = 8'b00100110; // SUB R1,R2
+    #10;
+
+    uut.instruction = 8'b00110110; // AND R1,R2
+    #10;
+
+    uut.instruction = 8'b01000110; // OR R1,R2
+    #10;
+
+    uut.instruction = 8'b01010110; // XOR R1,R2
+    #10;
+
+    $finish;
+end
+
+endmodule

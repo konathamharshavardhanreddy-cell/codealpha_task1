@@ -1,0 +1,47 @@
+module Processor4bit(
+    input clk
+);
+
+reg [7:0] instruction;
+
+wire [3:0] opcode;
+wire [1:0] rd;
+wire [1:0] rs;
+
+assign opcode = instruction[7:4];
+assign rd     = instruction[3:2];
+assign rs     = instruction[1:0];
+
+wire reg_write;
+wire mem_read;
+wire mem_write;
+
+ControlUnit CU(
+    opcode,
+    reg_write,
+    mem_read,
+    mem_write
+);
+
+wire [3:0] A;
+wire [3:0] B;
+wire [3:0] ALU_Result;
+
+RegisterFile RF(
+    clk,
+    reg_write,
+    rd,
+    rs,
+    ALU_Result,
+    A,
+    B
+);
+
+ALU alu(
+    A,
+    B,
+    opcode,
+    ALU_Result
+);
+
+endmodule
